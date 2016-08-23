@@ -58,7 +58,7 @@ elif sys.argv[1] == "data":
     if sys.argv[2] == "fans":
         fans_data(sys.argv[3])
     elif sys.argv[2] == "cpus":
-        fans_data(sys.argv[3])
+        cpus_data(sys.argv[3])
 
 else:
     help()
