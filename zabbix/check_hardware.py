@@ -65,9 +65,12 @@ def pdisks_disc():
     for c2 in c:
         os.environ['c2']=str(c2)
         pdisks_id = os.popen("""/usr/bin/omreport storage pdisk controller=$c2 | awk -F: '/^ID/{print $NF}'""")
+        num = 0
         for value in pdisks_id.readlines():
-            p = os.path.basename(value.strip())
+            #p = os.path.basename(value.strip())
+            p = str(num)
             values += [{'{#PDISK_ID}':p}]
+            num+=1
     print json.dumps({'data':values},sort_keys=True,indent=4,separators=(',',':'))
 
 def vdisks_disc():
