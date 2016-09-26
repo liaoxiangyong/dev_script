@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#coding:utf-8
 
 import os
 import sys
@@ -37,6 +38,22 @@ def check_container_info(container_name,container_item):
         result = new_result['networks']['eth0']['rx_bytes'] - old_result['networks']['eth0']['rx_bytes']
     elif container_item == "eth0_tx_byte":
         result = new_result['networks']['eth0']['tx_bytes'] - old_result['networks']['eth0']['tx_bytes']
+    elif container_item == "blk_io_read":
+        r_list = new_result['blkio_stats']['io_service_bytes_recursive']
+        for r_dict in r_list:
+            if r_dict['major'] == 253 and r_dict['op'] == "Read" and r_dict['minor'] == 0 :
+                result = r_dict['value']
+    elif container_item == "blk_io_write":
+        w_list = new_result['blkio_stats']['io_service_bytes_recursive']
+        for w_dict in w_list:
+            if w_dict['major'] == 253 and w_dict['op'] == "Write" and w_dict['minor'] == 0 :
+                result = w_dict['value']
+    # block io queue ，目前没有使用，因为获取出来的值为空“[]”
+    elif container_item == "blk_io_queue":
+        result = new_result['blkio_stats']['io_queue_recursive']
+    # block io wait time，目前没有使用，因为获取出来的值为空“[]”
+    elif container_item == "blk_io_wait":
+        result = new_result['blkio_stats']['io_wait_time_recursive']
     return result
 
 if __name__ == "__main__":
