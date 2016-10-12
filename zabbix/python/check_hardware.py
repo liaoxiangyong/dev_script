@@ -101,7 +101,9 @@ def pdisks_data(pid):
     pid = int(sys.argv[3])
     os.environ['pid'] = str(pid)
     # 判断物理硬盘状态是否“Ok”，并输出1 或 0
-    (stdout,stderr) = Popen("""/usr/bin/omreport storage pdisk controller=0 | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    #(stdout,stderr) = Popen("""/usr/bin/omreport storage pdisk controller=0 | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    # 判断物理硬盘状态是否“Ok”，并输出状态
+    (stdout,stderr) = Popen("""/usr/bin/omreport storage pdisk controller=0 | awk '/^Status/{print $NF}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
     # 生成list
     r = stdout.strip().split()
     # 根据id 输出需要的数值
@@ -112,7 +114,9 @@ def vdisks_data(vid):
     vid = int(sys.argv[3])
     os.environ['vid'] = str(vid)
     # 判断虚拟磁盘状态是否“Ok”，并输出1 或 0
-    (stdout,stderr) = Popen("""/usr/bin/omreport storage vdisk | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    #(stdout,stderr) = Popen("""/usr/bin/omreport storage vdisk | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    # 判断虚拟磁盘状态是否“Ok”, 并输出状态
+    (stdout,stderr) = Popen("""/usr/bin/omreport storage vdisk | awk '/^Status/{print $NF}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
     # 生成list
     r = stdout.strip().split()
     # 根据id 输出需要的数值
@@ -123,7 +127,9 @@ def mems_data(mid):
     mid = int(sys.argv[3])
     os.environ['mid'] = str(mid)
     # 判断内存状态是否“Ok”，并输出1 或 0
-    (stdout,stderr) = Popen("""/usr/bin/omreport chassis memory | awk '{a[NR]=$0;if(a[NR-1]~/^Index.*[0-9]/) {print $NF}}' | awk '{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    #(stdout,stderr) = Popen("""/usr/bin/omreport chassis memory | awk '{a[NR]=$0;if(a[NR-1]~/^Index.*[0-9]/) {print $NF}}' | awk '{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    # 判断内存状态是否“Ok”，并输出状态
+    (stdout,stderr) = Popen("""/usr/bin/omreport chassis memory | awk '{a[NR]=$0;if(a[NR-1]~/^Index.*[0-9]/) {print $NF}}' | awk '{print $NF}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
     # 生成list
     r = stdout.strip().split()
     # 根据id 输出需要的数值
@@ -134,7 +140,9 @@ def pwrsupplies_data(pid):
     pid = int(sys.argv[3])
     os.environ['pid'] = str(pid)
     # 判断电源状态是否“Ok”，并输出1 或 0
-    (stdout,stderr) = Popen("""/usr/bin/omreport chassis pwrsupplies | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    #(stdout,stderr) = Popen("""/usr/bin/omreport chassis pwrsupplies | awk '/^Status/{if($NF=="Ok"){print 1}else{print 0}}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
+    # 判断电源状态是否“Ok”，并输出状态
+    (stdout,stderr) = Popen("""/usr/bin/omreport chassis pwrsupplies | awk '/^Status/{print $NF}'""", shell=True, stdout=PIPE, stderr=PIPE).communicate()
     # 生成list
     r = stdout.strip().split()
     # 根据id 输出需要的数值
